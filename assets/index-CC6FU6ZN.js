@@ -1,0 +1,35 @@
+(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const o of e)if(o.type==="childList")for(const i of o.addedNodes)i.tagName==="LINK"&&i.rel==="modulepreload"&&s(i)}).observe(document,{childList:!0,subtree:!0});function n(e){const o={};return e.integrity&&(o.integrity=e.integrity),e.referrerPolicy&&(o.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?o.credentials="include":e.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function s(e){if(e.ep)return;e.ep=!0;const o=n(e);fetch(e.href,o)}})();const a={search:"",filter:"all"},c={languages:["JavaScript","Python","HTML","CSS"],tools:["VS Code","Git","GitHub","GNS3","Proxmox"],technologies:["Tailwind CSS","Vite","Fetch API","PostCSS"]},u=[{title:"CORAH Platform",description:"Developing a resource hub for rural aging and health in partnership with the Centre of Rural Aging & Health.",tech:["JavaScript","Tailwind CSS"],category:"JavaScript",url:null},{title:"PokéAPI Explorer",description:"A live data tool fetching Pokémon stats and move sets with integrated localStorage caching.",tech:["API","Fetch","LocalStorage"],category:"JavaScript",url:"#pokemon-tool"},{title:"Portfolio v1",description:"This portfolio! A data-driven client-side application built with modern web tools.",tech:["Vite","Tailwind v4"],category:"JavaScript",url:"#"}];async function m(){const t=document.getElementById("career-goals-list");if(t)try{const r=await fetch("./data/goals.json");if(!r.ok)throw new Error("JSON not found");const n=await r.json();t.innerHTML="",n.forEach(s=>{const e=document.createElement("li");e.className="flex gap-4",e.innerHTML=`
+        <div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          <strong class="text-slate-200 block mb-1">${s.title}</strong>
+          ${s.description}
+        </p>
+      `,t.appendChild(e)})}catch(r){console.error("Error loading goals:",r)}}function h(){const t={languages:document.getElementById("skills-languages"),tools:document.getElementById("skills-tools"),tech:document.getElementById("skills-technologies")},r=n=>{const s=document.createElement("span");return s.className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-200 font-medium",s.textContent=n,s};t.languages&&(t.languages.innerHTML="",c.languages.forEach(n=>t.languages.appendChild(r(n)))),t.tools&&(t.tools.innerHTML="",c.tools.forEach(n=>t.tools.appendChild(r(n)))),t.tech&&(t.tech.innerHTML="",c.technologies.forEach(n=>t.tech.appendChild(r(n))))}function l(){const t=document.getElementById("projects-grid");if(!t)return;t.innerHTML="",u.filter(n=>{const s=a.filter==="all"||n.category.toLowerCase()===a.filter,e=n.title.toLowerCase().includes(a.search.toLowerCase());return s&&e}).forEach(n=>{const s=document.createElement("article");s.className="rounded-3xl border border-white/5 bg-white/5 p-6 flex flex-col justify-between hover:border-cyan-300/30 transition shadow-xl";const e=n.url?`<a class="text-cyan-300 font-bold hover:underline" href="${n.url}">View Project →</a>`:'<span class="text-slate-500 italic text-xs">Development in Progress</span>';s.innerHTML=`
+      <div>
+        <h3 class="mb-3 text-xl font-bold text-white">${n.title}</h3>
+        <p class="mb-6 text-slate-400 text-sm leading-relaxed">${n.description}</p>
+        <div class="flex flex-wrap gap-2 mb-6">
+          ${n.tech.map(o=>`<span class='text-[10px] font-bold border border-white/10 px-2 py-1 rounded uppercase tracking-widest'>${o}</span>`).join("")}
+        </div>
+      </div>
+      ${e}
+    `,t.appendChild(s)})}async function f(t){const r=document.getElementById("github-status"),n=document.getElementById("github-grid");if(n)try{const e=await(await fetch(`https://api.github.com/users/${t}/repos?sort=updated&per_page=6`)).json();n.innerHTML="",r.textContent=`Displaying latest ${e.length} public repos for ${t}`,e.forEach(o=>{const i=document.createElement("div");i.className="rounded-3xl border border-white/5 bg-white/5 p-6 hover:bg-white/10 transition",i.innerHTML=`
+        <h3 class="font-bold text-white mb-2">${o.name}</h3>
+        <p class="text-xs text-slate-500 mb-4 h-8 overflow-hidden text-ellipsis">${o.description||"No description provided."}</p>
+        <a class="text-cyan-300 text-xs font-bold hover:underline" href="${o.html_url}" target="_blank">Repository Link</a>
+      `,n.appendChild(i)})}catch{r.textContent="GitHub API unavailable."}}async function d(){const r=document.getElementById("pokemonName").value.toLowerCase().trim();if(!r)return;const n=document.getElementById("pokemon-result"),s=`poke_${r}`,e=localStorage.getItem(s);if(e){p(JSON.parse(e)),n.classList.remove("hidden");return}try{const o=await fetch(`https://pokeapi.co/api/v2/pokemon/${r}`);if(!o.ok)throw new Error;const i=await o.json();localStorage.setItem(s,JSON.stringify(i)),p(i),n.classList.remove("hidden")}catch{alert("Pokémon not found!")}}function p(t){const r=document.getElementById("pokemonSprite"),n=document.getElementById("pokemonDetails"),s=document.getElementById("p_moves");r.src=t.sprites.other.showdown.front_default||t.sprites.front_default,n.innerHTML=`
+    <h3 class="text-4xl font-black text-white uppercase mb-2 tracking-tighter">${t.name}</h3>
+    <p class="text-cyan-400 font-bold text-sm mb-6 uppercase tracking-widest">${t.types.map(e=>e.type.name).join(" / ")}</p>
+    <div class="grid grid-cols-2 gap-2 text-[10px]">
+      ${t.stats.map(e=>`
+        <div class="bg-white/5 p-3 rounded-xl border border-white/5">
+          <div class="text-slate-500 uppercase font-bold">${e.stat.name}</div>
+          <div class="text-white text-lg font-bold">${e.base_stat}</div>
+        </div>
+      `).join("")}
+    </div>
+  `,s.innerHTML=t.moves.map(e=>{const o=e.version_group_details.find(i=>i.move_learn_method.name==="level-up");return o?{name:e.move.name,level:o.level_learned_at}:null}).filter(e=>e!==null).sort((e,o)=>e.level-o.level).map(e=>`
+      <tr class="border-b border-white/5 hover:bg-white/5 transition">
+        <td class="p-3 text-cyan-300 font-mono text-xs">LVL ${e.level}</td>
+        <td class="p-3 text-slate-300 capitalize text-sm">${e.name.replace("-"," ")}</td>
+      </tr>`).join("")}function g(){var t,r,n,s,e,o;h(),l(),m(),f("DelvinIsSmort"),(t=document.getElementById("project-search"))==null||t.addEventListener("input",i=>{a.search=i.target.value,l()}),(r=document.getElementById("filter-all"))==null||r.addEventListener("click",()=>{a.filter="all",l()}),(n=document.getElementById("filter-js"))==null||n.addEventListener("click",()=>{a.filter="javascript",l()}),(s=document.getElementById("filter-python"))==null||s.addEventListener("click",()=>{a.filter="python",l()}),(e=document.getElementById("searchPokemon"))==null||e.addEventListener("click",d),(o=document.getElementById("pokemonName"))==null||o.addEventListener("keypress",i=>{i.key==="Enter"&&d()})}g();
