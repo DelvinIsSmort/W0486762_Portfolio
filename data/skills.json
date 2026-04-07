@@ -1,0 +1,5 @@
+{
+  "languages": ["JavaScript", "Python", "HTML", "CSS"],
+  "tools": ["VS Code", "Git", "GitHub", "GNS3", "Proxmox"],
+  "technologies": ["Tailwind CSS", "Vite", "Fetch API", "PostCSS"]
+}

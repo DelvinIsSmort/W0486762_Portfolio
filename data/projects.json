@@ -1,0 +1,23 @@
+[
+  {
+    "title": "CORAH Platform",
+    "description": "Developing a resource hub for rural aging and health in partnership with the Centre of Rural Aging & Health.",
+    "tech": ["JavaScript", "Tailwind CSS"],
+    "category": "JavaScript",
+    "url": null
+  },
+  {
+    "title": "PokéAPI Explorer",
+    "description": "A live data tool fetching Pokémon stats and move sets with integrated localStorage caching.",
+    "tech": ["API", "Fetch", "LocalStorage"],
+    "category": "JavaScript",
+    "url": "#pokemon-tool"
+  },
+  {
+    "title": "Portfolio v1",
+    "description": "This portfolio! A data-driven client-side application built with modern web tools.",
+    "tech": ["Vite", "Tailwind v4"],
+    "category": "JavaScript",
+    "url": "#"
+  }
+]
