@@ -1,0 +1,18 @@
+(function(){const t=document.createElement("link").relList;if(t&&t.supports&&t.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))s(e);new MutationObserver(e=>{for(const l of e)if(l.type==="childList")for(const c of l.addedNodes)c.tagName==="LINK"&&c.rel==="modulepreload"&&s(c)}).observe(document,{childList:!0,subtree:!0});function o(e){const l={};return e.integrity&&(l.integrity=e.integrity),e.referrerPolicy&&(l.referrerPolicy=e.referrerPolicy),e.crossOrigin==="use-credentials"?l.credentials="include":e.crossOrigin==="anonymous"?l.credentials="omit":l.credentials="same-origin",l}function s(e){if(e.ep)return;e.ep=!0;const l=o(e);fetch(e.href,l)}})();let i={languages:[],tools:[],technologies:[]},d=[],f=[];const n={search:"",filter:"all"};function a(r="all"){if(r==="all"||r==="skills"){const t={languages:document.getElementById("skills-languages"),tools:document.getElementById("skills-tools"),tech:document.getElementById("skills-technologies")};if(t.languages){const o=s=>`<span class="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-3 py-1 text-xs text-cyan-200 font-medium">${s}</span>`;t.languages.innerHTML=i.languages.map(o).join(""),t.tools.innerHTML=i.tools.map(o).join(""),t.tech.innerHTML=i.technologies.map(o).join("")}}if(r==="all"||r==="projects"){const t=document.getElementById("projects-grid");if(t){const o=d.filter(s=>{const e=n.filter==="all"||s.category.toLowerCase()===n.filter,l=s.title.toLowerCase().includes(n.search.toLowerCase());return e&&l});t.innerHTML=o.map(s=>`
+        <article class="rounded-3xl border border-white/5 bg-white/5 p-6 flex flex-col justify-between hover:border-cyan-300/30 transition shadow-xl">
+          <div>
+            <h3 class="mb-3 text-xl font-bold text-white">${s.title}</h3>
+            <p class="mb-6 text-slate-400 text-sm leading-relaxed">${s.description}</p>
+            <div class="flex flex-wrap gap-2 mb-6">
+              ${s.tech.map(e=>`<span class='text-[10px] font-bold border border-white/10 px-2 py-1 rounded uppercase tracking-widest bg-white/5'>${e}</span>`).join("")}
+            </div>
+          </div>
+          ${s.url?`<a class="text-cyan-300 font-bold hover:underline" href="${s.url}">View Project →</a>`:'<span class="text-slate-500 italic text-xs">In Progress</span>'}
+        </article>`).join("")}}if(r==="all"||r==="goals"){const t=document.getElementById("career-goals-list");t&&(t.innerHTML=f.map(o=>`
+        <li class="flex gap-4">
+          <div class="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.6)]"></div>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            <strong class="text-slate-200 block mb-1">${o.title}</strong>
+            ${o.description}
+          </p>
+        </li>`).join(""))}}async function u(){try{const[r,t,o]=await Promise.all([fetch("data/skills.json"),fetch("data/projects.json"),fetch("data/goals.json")]);i=await r.json(),d=await t.json(),f=await o.json(),a(),console.log("All portfolio data synchronized.")}catch(r){console.error("Sync Error:",r)}}async function g(){var r,t,o,s,e;await u(),loadRepos("DelvinIsSmort"),(r=document.getElementById("project-search"))==null||r.addEventListener("input",l=>{n.search=l.target.value,a("projects")}),(t=document.getElementById("filter-all"))==null||t.addEventListener("click",()=>{n.filter="all",a("projects")}),(o=document.getElementById("filter-js"))==null||o.addEventListener("click",()=>{n.filter="javascript",a("projects")}),(s=document.getElementById("filter-python"))==null||s.addEventListener("click",()=>{n.filter="python",a("projects")}),(e=document.getElementById("searchPokemon"))==null||e.addEventListener("click",fetchPokemonData)}g();
